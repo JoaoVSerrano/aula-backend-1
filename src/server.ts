@@ -1,29 +1,14 @@
 import express, {Request, Response} from "express";
+import { runInNewContext } from "node:vm";
+import { Tarefa } from "./models/tarefa";
+import tarefasRoutes from "./routes/tarefas";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-
-app.get("/", (req : Request, res : Response) => {
-    res.send("Olá, Express!!!");
-});
-
-app.get("/saudacao/:nome", (req: Request, res: Response) => {
-    const nome = req.params.nome;
-    //res.send("Olá, " + nome);
-    res.json({
-        mensagem: `Olá ${nome}!`
-    });
-});
-
-app.post("/saudacao", (req: Request, res: Response) => {
-    const {nome} = req.body;
-    res.json({
-        mensagem: `Olá ${nome}!`
-    });
-});
+app.use("/", tarefasRoutes);
 
 app.listen(PORT, () => {
-    console.log("Servidor executando em localhost");
+    console.log(`Servidor executando em localhost: ${PORT}`)
 });
